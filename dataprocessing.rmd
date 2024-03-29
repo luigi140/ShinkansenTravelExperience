@@ -1,0 +1,12 @@
+---
+title: "Group Project"
+output: pdf_document
+date: "2024-03-29"
+---
+
+# Data Processing
+
+```{r}
+travel <- read.csvV("TravelTrain.csv", header=T, sep=" ")
+head(travel)
+```
