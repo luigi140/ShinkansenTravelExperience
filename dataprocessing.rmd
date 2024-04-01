@@ -7,6 +7,19 @@ date: "2024-03-29"
 # Data Processing
 
 ```{r}
-travel <- read.csvV("TravelTrain.csv", header=T, sep=" ")
-head(travel)
+travel <- read.csv("TravelTrain.csv", header=T, sep=",")
+survey <- read.csv("SurveyTrain.csv", header=T, sep=",")
+full <- merge(survey,travel,by.x="ID",by.y="ID")
+nonfactors = c("ID", "Age", "Travel_Distance", "DepartureDelay_in_Mins", "ArrivalDelay_in_Mins")
+factors = -which(names(full) %in% nonfactors)
+full[, factors] = lapply(full[, factors], as.factor)
+head(full)
+```
+
+```{r}
+# Data imputation for  missing values
+library(VIM)
+colSums(is.na(full[, nonfactors]))
+colSums(full[, factors] == "")
+fullImp <- hotdeck(full, c("Age", "DepartureDelay_in_Mins", "ArrivalDelay_in_Mins"), )
 ```
